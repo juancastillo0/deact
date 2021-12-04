@@ -6,7 +6,8 @@ class _TypeLiteral<T> {
 
 /// A combination of a [GlobalStateProvider]
 /// and a [GlobalRefProvider].
-abstract class GlobalProvider implements GlobalStateProvider, GlobalRefProvider {}
+abstract class GlobalProvider
+    implements GlobalStateProvider, GlobalRefProvider {}
 
 /// A reference to a value.
 ///
@@ -56,12 +57,22 @@ class Ref<T> {
 /// not recognize, that the state has changed.
 class State<T> {
   final _DeactInstance _instance;
+  final ComponentContext context;
   final _TypeLiteral<T> _type;
   final bool _global;
   T? _value;
   bool _valueChanged = true;
 
-  State._(this._instance, this._global, this._value) : _type = _TypeLiteral<T>();
+  State._(this._instance, this.context, this._global, this._value)
+      : _type = _TypeLiteral<T>();
+
+  void _rebuild() {
+    if (_global) {
+      _renderInstance(_instance, null);
+    } else {
+      context.scheduleRerender();
+    }
+  }
 
   /// Executes to provided [updater] function to update
   /// a part of the state. This function is useful for
@@ -71,7 +82,7 @@ class State<T> {
   void update(void Function(T state) updater) {
     updater(_value as T);
     _valueChanged = true;
-    _renderInstance(_instance);
+    _rebuild();
   }
 
   /// Executes to provided [setter] function to replace
@@ -82,7 +93,7 @@ class State<T> {
   void set(T Function(T state) setter) {
     _value = setter(_value as T);
     _valueChanged = true;
-    _renderInstance(_instance);
+    _rebuild();
   }
 
   /// Sets a new state. After the new state is applied,
@@ -91,7 +102,7 @@ class State<T> {
   set value(T value) {
     _value = value;
     _valueChanged = true;
-    _renderInstance(_instance);
+    _rebuild();
   }
 
   /// Returns the actual state object.
@@ -120,8 +131,10 @@ class ComponentContext {
   final Map<String, Effect> _effects = {};
   final Map<String, Cleanup> _cleanups = {};
   final Map<String, Iterable<State>?> _effectStateDependencies = {};
+  PrevElem _prevElem;
 
-  ComponentContext._(this._parent, this._instance, this._location);
+  ComponentContext._(
+      this._parent, this._instance, this._location, this._prevElem);
 
   /// Creates a reference with the given [name] and
   /// [intialValue].
@@ -159,7 +172,11 @@ class ComponentContext {
   ///
   /// Setting [global] to `true` makes the reference
   /// accessible for all children of the component.
-  Ref<T> refProvided<T>(String name, InitialValueProvider<T> initialValueProvider, {bool global = false}) {
+  Ref<T> refProvided<T>(
+    String name,
+    InitialValueProvider<T> initialValueProvider, {
+    bool global = false,
+  }) {
     return _refs.putIfAbsent(name, () {
       final initialValue = initialValueProvider.call();
       final ref = Ref<T>._(global, initialValue);
@@ -207,7 +224,7 @@ class ComponentContext {
   /// for all children of the component.
   State<T> state<T>(String name, T initialValue, {bool global = false}) {
     return _states.putIfAbsent(name, () {
-      final state = State<T>._(_instance, global, initialValue);
+      final state = State<T>._(_instance, this, global, initialValue);
       //_instance.logger.fine('${_location}: created state with name ${name} with initial value ${initialValue}');
       return state;
     }) as State<T>;
@@ -230,10 +247,14 @@ class ComponentContext {
   ///
   /// Setting [global] to `true` makes the state accessible
   /// for all children of the component.
-  State<T> stateProvided<T>(String name, InitialValueProvider<T> initialValueProvider, {bool global = false}) {
+  State<T> stateProvided<T>(
+    String name,
+    InitialValueProvider<T> initialValueProvider, {
+    bool global = false,
+  }) {
     return _states.putIfAbsent(name, () {
       final initialValue = initialValueProvider();
-      final state = State<T>._(_instance, global, initialValue);
+      final state = State<T>._(_instance, this, global, initialValue);
       //_instance.logger.fine('${_location}: created state with name ${name} with initial value ${initialValue}');
       return state;
     }) as State<T>;
@@ -255,7 +276,9 @@ class ComponentContext {
       }
       ctx = ctx._parent;
     }
-    return throw StateError('no global state with name $name and type $S found!');
+    return throw StateError(
+      'no global state with name $name and type $S found!',
+    );
   }
 
   /// Introduces an effect that will be called, if the
@@ -283,7 +306,7 @@ class ComponentContext {
   /// Schedules a rerender of the component and all its
   /// children.
   void scheduleRerender() {
-    _renderInstance(_instance);
+    _renderInstance(_instance, this);
   }
 }
 

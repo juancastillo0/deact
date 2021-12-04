@@ -23,6 +23,8 @@ class _DeactInstance implements Deact {
   @override
   AfterRender? afterRender;
   final List<RenderWrapper> wrappers;
+  final Set<PrevElem?> _dirty = {};
+  Future<void>? _rerenderFuture;
 
   _DeactInstance(
     this.selector, {

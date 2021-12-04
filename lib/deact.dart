@@ -48,7 +48,7 @@ Deact deact(
   deact.rootNode = root(deact);
 
   // Initial render of the Deact node hierarchy.
-  _renderInstance(deact);
+  _renderInstance(deact, null);
 
   return deact;
 }
