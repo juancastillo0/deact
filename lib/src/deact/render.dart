@@ -99,8 +99,18 @@ void _renderNode(
       newContext = true;
     }
     context._effects.clear();
-    final elementNode = node.render(context);
-    _renderNode(instance, elementNode, 0, context, usedComponentLocations);
+    /// execute [node.render] with [instance.wrappers]
+    final DeactNode elementNode;
+    if (instance.wrappers.isEmpty) {
+      elementNode = node.render(context);
+    } else {
+      DeactNode Function(ComponentContext) next = node.render;
+      for (final wrap in instance.wrappers) {
+        final _next = next;
+        next = (c) => wrap(c, _next);
+      }
+      elementNode = next(context);
+    }
     for (var name in context._effects.keys) {
       final states = context._effectStateDependencies[name];
       var executeEffect = false;

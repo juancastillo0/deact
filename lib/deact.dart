@@ -4,7 +4,8 @@ import 'dart:async';
 import 'dart:html' as html;
 import 'dart:html';
 
-import 'package:incremental_dom_bindings/incremental_dom_bindings.dart' as inc_dom;
+import 'package:incremental_dom_bindings/incremental_dom_bindings.dart'
+    as inc_dom;
 import 'package:logging/logging.dart';
 
 part 'src/deact/component.dart';
@@ -28,7 +29,11 @@ typedef RootNodeProvider = DeactNode Function(Deact);
 /// selected by the given [selector]. All node beneath
 /// that element will be deleted and replaced by the
 /// [root] node.
-Deact deact(String selector, RootNodeProvider root) {
+Deact deact(
+  String selector,
+  RootNodeProvider root, {
+  List<RenderWrapper> wrappers = const [],
+}) {
   // Input elements have attributes and properties with
   // the same name. The Deact element API usually sets the
   // the attribute. If an user interaction updates the value
@@ -39,7 +44,7 @@ Deact deact(String selector, RootNodeProvider root) {
   inc_dom.attributes['selected'] = _applyAttrAndPropBool;
 
   // create the deact instance
-  final deact = _DeactInstance(selector);
+  final deact = _DeactInstance(selector, wrappers: wrappers);
   deact.rootNode = root(deact);
 
   // Initial render of the Deact node hierarchy.

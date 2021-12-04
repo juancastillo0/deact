@@ -22,6 +22,15 @@ class _DeactInstance implements Deact {
   num lastRenderTimeMs = -1;
   @override
   AfterRender? afterRender;
+  final List<RenderWrapper> wrappers;
 
-  _DeactInstance(this.selector) : logger = Logger('deact.$selector');
+  _DeactInstance(
+    this.selector, {
+    this.wrappers = const [],
+  }) : logger = Logger('deact.$selector');
 }
+
+typedef RenderWrapper = DeactNode Function(
+  ComponentContext ctx,
+  DeactNode Function(ComponentContext) wrap,
+);
