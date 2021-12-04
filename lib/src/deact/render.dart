@@ -80,6 +80,9 @@ void _removeLocations(
       for (var cleanup in ctx._cleanups.values) {
         cleanup();
       }
+      for (final hook in ctx._hookEffects) {
+        hook.cleanup?.call();
+      }
     } else {
       //instance.logger.warning('${location}: no context found. this looks like a bug!');
     }
@@ -195,6 +198,8 @@ void _renderNode(
     }
 
     context._effects.clear();
+    context._initRender();
+
     /// execute [node.render] with [instance.wrappers]
     final DeactNode elementNode;
     if (instance.wrappers.isEmpty) {

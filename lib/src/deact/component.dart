@@ -116,6 +116,22 @@ typedef Cleanup = void Function();
 /// compoenent was (re)rendered.
 typedef Effect = Cleanup? Function();
 
+typedef KeysEquals = bool Function(Object?, Object?);
+
+bool _defaultComparator(Object? a, Object? b) => a == b;
+
+class HookEffect {
+  final Cleanup? cleanup;
+  final List<Object?> keys;
+  final KeysEquals isEqual;
+
+  HookEffect({
+    this.cleanup,
+    required this.keys,
+    required this.isEqual,
+  });
+}
+
 /// A function to provide an intial value.
 typedef InitialValueProvider<T> = T Function();
 
@@ -131,10 +147,20 @@ class ComponentContext {
   final Map<String, Effect> _effects = {};
   final Map<String, Cleanup> _cleanups = {};
   final Map<String, Iterable<State>?> _effectStateDependencies = {};
+  List<HookEffect> _hookEffects = [];
+  List<HookEffect> _previousHookEffects = [];
   PrevElem _prevElem;
 
   ComponentContext._(
       this._parent, this._instance, this._location, this._prevElem);
+
+  Iterable<ComponentContext> _parents() sync* {
+    ComponentContext? parent = _parent;
+    while (parent != null) {
+      yield parent;
+      parent = parent._parent;
+    }
+  }
 
   /// Creates a reference with the given [name] and
   /// [intialValue].
@@ -301,6 +327,41 @@ class ComponentContext {
   void effect(String name, Effect effect, {Iterable<State>? dependsOn}) {
     _effects[name] = effect;
     _effectStateDependencies[name] = dependsOn;
+  }
+
+  void hookEffect(
+    Effect effect, [
+    List<Object?> keys = const [],
+    KeysEquals isEqual = _defaultComparator,
+  ]) {
+    final index = _hookEffects.length;
+    final previous = _previousHookEffects.length > index
+        ? _previousHookEffects[index]
+        : null;
+    if (previous != null) {
+      assert(previous.isEqual == isEqual);
+      int i = 0;
+      if (previous.keys.length != keys.length ||
+          previous.keys.any((e) => !isEqual(e, keys[i++]))) {
+        previous.cleanup?.call();
+      } else {
+        _hookEffects.add(previous);
+        return;
+      }
+    }
+
+    final cleanup = effect();
+    final _hook = HookEffect(
+      cleanup: cleanup,
+      keys: keys,
+      isEqual: isEqual,
+    );
+    _hookEffects.add(_hook);
+  }
+
+  void _initRender() {
+    _previousHookEffects = _hookEffects;
+    _hookEffects = [];
   }
 
   /// Schedules a rerender of the component and all its
