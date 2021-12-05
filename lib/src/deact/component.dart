@@ -122,7 +122,7 @@ bool _defaultComparator(Object? a, Object? b) => a == b;
 
 class HookEffect {
   final Effect effect;
-  final List<Object?> keys;
+  final List<Object?>? keys;
   final KeysEquals isEqual;
   Cleanup? cleanup;
 
@@ -332,7 +332,7 @@ class ComponentContext {
 
   void hookEffect(
     Effect effect, [
-    List<Object?> keys = const [],
+    List<Object?>? keys,
     KeysEquals isEqual = _defaultComparator,
   ]) {
     final _hook = HookEffect(
@@ -352,9 +352,14 @@ class ComponentContext {
       final current = _hookEffects.length > i ? _hookEffects[i] : null;
       if (previous != null && current != null) {
         assert(previous.isEqual == current.isEqual);
+        final prevKeys = previous.keys;
+        final currKeys = current.keys;
+
         int i = 0;
-        if (previous.keys.length != current.keys.length ||
-            previous.keys.any((e) => !current.isEqual(e, current.keys[i++]))) {
+        if (currKeys == null ||
+            prevKeys == null ||
+            (prevKeys.length != currKeys.length ||
+                prevKeys.any((e) => !current.isEqual(e, currKeys[i++])))) {
           previous.cleanup?.call();
           current.cleanup = current.effect();
         } else {

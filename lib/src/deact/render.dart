@@ -92,7 +92,7 @@ void _removeLocations(
 }
 
 class PrevElem {
-  final Element elem;
+  final html.Element elem;
   final PrevElem? parent;
   final void Function() rebuild;
 

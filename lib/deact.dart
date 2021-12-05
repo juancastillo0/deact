@@ -2,7 +2,6 @@ library deact;
 
 import 'dart:async';
 import 'dart:html' as html;
-import 'dart:html';
 import 'dart:math' as math;
 
 import 'package:incremental_dom_bindings/incremental_dom_bindings.dart'
@@ -54,7 +53,7 @@ Deact deact(
   return deact;
 }
 
-void _applyAttrAndPropBool(Element element, String name, Object? value) {
+void _applyAttrAndPropBool(html.Element element, String name, Object? value) {
   inc_dom.applyAttr(element, name, value);
   inc_dom.applyProp(element, name, value != null);
 }
