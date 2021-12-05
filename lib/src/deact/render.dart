@@ -198,7 +198,6 @@ void _renderNode(
     }
 
     context._effects.clear();
-    context._initRender();
 
     /// execute [node.render] with [instance.wrappers]
     final DeactNode elementNode;
@@ -247,6 +246,7 @@ void _renderNode(
     for (var state in context._states.values) {
       state._valueChanged = false;
     }
+    context._afterRender();
   } else if (node == null) {
     // null means nothing should be rendered
   } else {

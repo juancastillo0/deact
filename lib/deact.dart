@@ -3,6 +3,7 @@ library deact;
 import 'dart:async';
 import 'dart:html' as html;
 import 'dart:html';
+import 'dart:math' as math;
 
 import 'package:incremental_dom_bindings/incremental_dom_bindings.dart'
     as inc_dom;

@@ -121,12 +121,13 @@ typedef KeysEquals = bool Function(Object?, Object?);
 bool _defaultComparator(Object? a, Object? b) => a == b;
 
 class HookEffect {
-  final Cleanup? cleanup;
+  final Effect effect;
   final List<Object?> keys;
   final KeysEquals isEqual;
+  Cleanup? cleanup;
 
   HookEffect({
-    this.cleanup,
+    required this.effect,
     required this.keys,
     required this.isEqual,
   });
@@ -334,32 +335,38 @@ class ComponentContext {
     List<Object?> keys = const [],
     KeysEquals isEqual = _defaultComparator,
   ]) {
-    final index = _hookEffects.length;
-    final previous = _previousHookEffects.length > index
-        ? _previousHookEffects[index]
-        : null;
-    if (previous != null) {
-      assert(previous.isEqual == isEqual);
-      int i = 0;
-      if (previous.keys.length != keys.length ||
-          previous.keys.any((e) => !isEqual(e, keys[i++]))) {
-        previous.cleanup?.call();
-      } else {
-        _hookEffects.add(previous);
-        return;
-      }
-    }
-
-    final cleanup = effect();
     final _hook = HookEffect(
-      cleanup: cleanup,
+      effect: effect,
       keys: keys,
       isEqual: isEqual,
     );
     _hookEffects.add(_hook);
   }
 
-  void _initRender() {
+  void _afterRender() {
+    for (int i = 0;
+        i < math.max(_hookEffects.length, _previousHookEffects.length);
+        i++) {
+      final previous =
+          _previousHookEffects.length > i ? _previousHookEffects[i] : null;
+      final current = _hookEffects.length > i ? _hookEffects[i] : null;
+      if (previous != null && current != null) {
+        assert(previous.isEqual == current.isEqual);
+        int i = 0;
+        if (previous.keys.length != current.keys.length ||
+            previous.keys.any((e) => !current.isEqual(e, current.keys[i++]))) {
+          previous.cleanup?.call();
+          current.cleanup = current.effect();
+        } else {
+          current.cleanup = previous.cleanup;
+        }
+      } else if (current != null) {
+        current.cleanup = current.effect();
+      } else if (previous != null) {
+        previous.cleanup?.call();
+      }
+    }
+
     _previousHookEffects = _hookEffects;
     _hookEffects = [];
   }
