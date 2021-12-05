@@ -143,7 +143,19 @@ void _renderNode(
       }
     }
 
-    final el = inc_dom.elementOpen(node.name, null, null, props);
+    if (node.rawElement != null) {
+      final el = inc_dom.elementOpen('html-blob');
+      el.append(node.rawElement!);
+      inc_dom.skip();
+      inc_dom.elementClose('html-blob');
+      return;
+    }
+    final el = inc_dom.elementOpen(
+      node.name.isEmpty ? node.rawElement!.tagName : node.name,
+      null,
+      null,
+      props,
+    );
 
     Set<_TreeLocation> currentLocations = {};
     bool _building = true;
