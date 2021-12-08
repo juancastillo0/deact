@@ -11,6 +11,8 @@ abstract class Deact {
   /// A function to be called after the node hierarchy was
   /// rendered.
   AfterRender? afterRender;
+
+  Future<void> waitScheduledRender();
 }
 
 class _DeactInstance implements Deact {
@@ -25,6 +27,14 @@ class _DeactInstance implements Deact {
   final List<RenderWrapper> wrappers;
   final Set<PrevElem?> _dirty = {};
   Future<void>? _rerenderFuture;
+
+  @override
+  Future<void> waitScheduledRender() {
+    if (_rerenderFuture == null) {
+      return Future.delayed(Duration.zero, () => _rerenderFuture);
+    }
+    return _rerenderFuture!;
+  }
 
   _DeactInstance(
     this.selector, {

@@ -20,35 +20,38 @@ void _renderInstance(
         );
       }
 
-      final usedComponentLocations = <_TreeLocation>{};
-      final _prevElem = PrevElem._(
+      late final PrevElem _prevElem;
+      _prevElem = PrevElem._(
         hostElement,
         null,
-        () => _renderInstance(instance, null),
+        () {
+          final usedComponentLocations = <_TreeLocation>{};
+          final location = _TreeLocation(null, 's:${instance.selector}', null);
+          inc_dom.patch(
+            hostElement,
+            (_) => _renderNode(
+              instance,
+              instance.rootNode,
+              0,
+              ComponentContext._(null, instance, location, _prevElem),
+              location,
+              usedComponentLocations,
+              _prevElem,
+            ),
+          );
+          _removeLocations(
+              instance, instance.contexts.keys, usedComponentLocations);
+        },
       );
-      final location = _TreeLocation(null, 's:${instance.selector}', null);
-      inc_dom.patch(
-        hostElement,
-        (_) => _renderNode(
-          instance,
-          instance.rootNode,
-          0,
-          ComponentContext._(null, instance, location, _prevElem),
-          location,
-          usedComponentLocations,
-          _prevElem,
-        ),
-      );
-      _removeLocations(
-          instance, instance.contexts.keys, usedComponentLocations);
+      _prevElem.rebuild();
     } else {
       /// [instance._dirt] elements need to be rebuilt.
       /// Only rebuild dirty parents, if an element is dirty and one
       /// of its parents is also dirty, then the element does not need to
       /// be rebuilt since its parent will rebuild all its children
-      final dirtyParents = instance._dirty.whereType<PrevElem>().where(
-            (elem) => !elem.parents().any(instance._dirty.contains),
-          );
+      final dirtyParents = instance._dirty
+          .whereType<PrevElem>()
+          .where((elem) => !elem.parents().any(instance._dirty.contains));
       for (final elem in dirtyParents) {
         elem.rebuild();
       }
