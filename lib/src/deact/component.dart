@@ -118,7 +118,7 @@ typedef Effect = Cleanup? Function();
 
 typedef KeysEquals = bool Function(Object?, Object?);
 
-bool _defaultComparator(Object? a, Object? b) => a == b;
+bool defaultKeysEquals(Object? a, Object? b) => a == b;
 
 class HookEffect {
   final Effect effect;
@@ -148,6 +148,12 @@ class ComponentContext {
   final Map<String, Effect> _effects = {};
   final Map<String, Cleanup> _cleanups = {};
   final Map<String, Iterable<State>?> _effectStateDependencies = {};
+
+  int? _hookRefIndex;
+  final List<Ref> _hookRefs = [];
+  int? _hookStateIndex;
+  final List<State> _hookStates = [];
+
   List<HookEffect> _hookEffects = [];
   List<HookEffect> _previousHookEffects = [];
   PrevElem _prevElem;
@@ -333,7 +339,7 @@ class ComponentContext {
   void hookEffect(
     Effect effect, [
     List<Object?>? keys,
-    KeysEquals isEqual = _defaultComparator,
+    KeysEquals isEqual = defaultKeysEquals,
   ]) {
     final _hook = HookEffect(
       effect: effect,
@@ -341,6 +347,18 @@ class ComponentContext {
       isEqual: isEqual,
     );
     _hookEffects.add(_hook);
+  }
+
+  static bool areKeysDifferent(
+    List<Object?>? prevKeys,
+    List<Object?>? newKeys,
+    KeysEquals isEqual,
+  ) {
+    int i = 0;
+    return newKeys == null ||
+        prevKeys == null ||
+        (prevKeys.length != newKeys.length ||
+            prevKeys.any((e) => !isEqual(e, newKeys[i++])));
   }
 
   void _afterRender() {
@@ -353,13 +371,9 @@ class ComponentContext {
       if (previous != null && current != null) {
         assert(previous.isEqual == current.isEqual);
         final prevKeys = previous.keys;
-        final currKeys = current.keys;
+        final newKeys = current.keys;
 
-        int i = 0;
-        if (currKeys == null ||
-            prevKeys == null ||
-            (prevKeys.length != currKeys.length ||
-                prevKeys.any((e) => !current.isEqual(e, currKeys[i++])))) {
+        if (areKeysDifferent(prevKeys, newKeys, current.isEqual)) {
           previous.cleanup?.call();
           current.cleanup = current.effect();
         } else {
@@ -374,6 +388,35 @@ class ComponentContext {
 
     _previousHookEffects = _hookEffects;
     _hookEffects = [];
+
+    _hookRefIndex = 0;
+    _hookStateIndex = 0;
+  }
+
+  Ref<T> hookRef<T>(T Function() builder) {
+    final Ref<T> ref;
+    if (_hookRefIndex == null) {
+      ref = Ref._(false, builder());
+      _hookRefs.add(ref);
+    } else {
+      final _ref = _hookRefs[_hookRefIndex!];
+      ref = _ref as Ref<T>;
+      _hookRefIndex = _hookRefIndex! + 1;
+    }
+    return ref;
+  }
+
+  State<T> hookState<T>(T Function() builder) {
+    final State<T> state;
+    if (_hookStateIndex == null) {
+      state = State._(_instance, this, false, builder());
+      _hookStates.add(state);
+    } else {
+      final _state = _hookStates[_hookStateIndex!];
+      state = _state as State<T>;
+      _hookStateIndex = _hookStateIndex! + 1;
+    }
+    return state;
   }
 
   /// Schedules a rerender of the component and all its
