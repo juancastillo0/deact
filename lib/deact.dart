@@ -18,6 +18,7 @@ part 'src/deact/node.dart';
 part 'src/deact/render.dart';
 part 'src/deact/text.dart';
 part 'src/deact/tree_location.dart';
+part 'src/deact/renderer.dart';
 
 /// A function to provide the root node to the [deact]
 /// function.
@@ -31,6 +32,32 @@ typedef RootNodeProvider = DeactNode Function(Deact);
 /// [root] node.
 Deact deact(
   String selector,
+  RootNodeProvider root, {
+  Renderer renderer = const IncDomRenderer(),
+  List<RenderWrapper> wrappers = const [],
+}) {
+  final hostElement = html.querySelector(selector);
+  if (hostElement == null) {
+    throw ArgumentError(
+      'no element found for selector $selector',
+    );
+  }
+  return deactInNode(
+    hostElement,
+    root,
+    renderer: renderer,
+    wrappers: wrappers,
+  );
+}
+
+/// The entrypoint to mount a Deact application to the DOM.
+///
+/// The application will be mounted beneath the elements
+/// selected by the given [selector]. All node beneath
+/// that element will be deleted and replaced by the
+/// [root] node.
+Deact deactInNode(
+  html.Element selector,
   RootNodeProvider root, {
   Renderer renderer = const IncDomRenderer(),
   List<RenderWrapper> wrappers = const [],

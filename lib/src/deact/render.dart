@@ -13,12 +13,7 @@ void _renderInstance(
     /// `null` is the root element, if it's dirty
     /// then render the whole tree
     if (instance._dirty.contains(null)) {
-      final hostElement = html.querySelector(instance.selector);
-      if (hostElement == null) {
-        throw ArgumentError(
-          'no element found for selector ${instance.selector}',
-        );
-      }
+      final hostElement = instance.rootElement;
 
       late final PrevElem _prevElem;
       _prevElem = PrevElem._(

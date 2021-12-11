@@ -16,7 +16,7 @@ abstract class Deact {
 }
 
 class _DeactInstance implements Deact {
-  final String selector;
+  final html.Element rootElement;
   final Logger logger;
   final Map<_TreeLocation, ComponentContext> contexts = {};
   DeactNode? rootNode;
@@ -38,9 +38,10 @@ class _DeactInstance implements Deact {
   }
 
   _DeactInstance(
+    this.rootElement,
     this.renderer, {
     this.wrappers = const [],
-  }) : logger = Logger('deact.$selector');
+  }) : logger = Logger('deact.${rootElement.hashCode}');
 }
 
 typedef RenderWrapper = DeactNode Function(
