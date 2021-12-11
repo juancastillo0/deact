@@ -26,8 +26,9 @@ void _renderInstance(
         null,
         () {
           final usedComponentLocations = <_TreeLocation>{};
-          final location = _TreeLocation(null, 's:${instance.selector}', null);
-          inc_dom.patch(
+          final location =
+              _TreeLocation(null, 's:${hostElement.hashCode}', null);
+          instance.renderer.patch(
             hostElement,
             (_) => _renderNode(
               instance,
@@ -147,14 +148,14 @@ void _renderNode(
     }
 
     if (node.rawElement != null) {
-      final el = inc_dom.elementOpen('html-blob');
+      final el = instance.renderer.elementOpen('html-blob');
       el.append(node.rawElement!);
-      inc_dom.skip();
-      inc_dom.elementClose('html-blob');
+      instance.renderer.skip();
+      instance.renderer.elementClose('html-blob');
       return;
     }
-    final el = inc_dom.elementOpen(
-      node.name.isEmpty ? node.rawElement!.tagName : node.name,
+    final el = instance.renderer.elementOpen(
+      node.name,
       null,
       null,
       props,
@@ -166,7 +167,7 @@ void _renderNode(
       if (_building) return;
       _building = true;
       final Set<_TreeLocation> _newLocations = {};
-      inc_dom.patch(el, (_) {
+      instance.renderer.patch(el, (_) {
         _renderChildren(_newLocations);
       });
       _removeLocations(instance, currentLocations, _newLocations);
@@ -177,7 +178,7 @@ void _renderNode(
     _building = false;
     usedComponentLocations.addAll(currentLocations);
 
-    inc_dom.elementClose(node.name);
+    instance.renderer.elementClose(node.name);
     final ref = node.ref;
     if (ref != null && ref.value != el) {
       ref.value = el;
@@ -192,7 +193,7 @@ void _renderNode(
   } else if (node is TextNode) {
     node._location = _TreeLocation(parentLocation, 't', nodePosition);
     //instance.logger.finest('${node._location}: processing node');
-    inc_dom.text(node.text);
+    instance.renderer.text(node.text);
   } else if (node is ComponentNode) {
     final location = _TreeLocation(
         parentLocation, 'c:${node.runtimeType}', nodePosition,

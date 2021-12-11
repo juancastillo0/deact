@@ -32,6 +32,7 @@ typedef RootNodeProvider = DeactNode Function(Deact);
 Deact deact(
   String selector,
   RootNodeProvider root, {
+  Renderer renderer = const IncDomRenderer(),
   List<RenderWrapper> wrappers = const [],
 }) {
   // Input elements have attributes and properties with
@@ -44,7 +45,7 @@ Deact deact(
   inc_dom.attributes['selected'] = _applyAttrAndPropBool;
 
   // create the deact instance
-  final deact = _DeactInstance(selector, wrappers: wrappers);
+  final deact = _DeactInstance(selector, renderer, wrappers: wrappers);
   deact.rootNode = root(deact);
 
   // Initial render of the Deact node hierarchy.

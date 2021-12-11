@@ -27,6 +27,7 @@ class _DeactInstance implements Deact {
   final List<RenderWrapper> wrappers;
   final Set<PrevElem?> _dirty = {};
   Future<void>? _rerenderFuture;
+  final Renderer renderer;
 
   @override
   Future<void> waitScheduledRender() {
@@ -37,7 +38,7 @@ class _DeactInstance implements Deact {
   }
 
   _DeactInstance(
-    this.selector, {
+    this.renderer, {
     this.wrappers = const [],
   }) : logger = Logger('deact.$selector');
 }
