@@ -83,7 +83,7 @@ void _removeLocations(
       for (var cleanup in ctx._cleanups.values) {
         cleanup();
       }
-      for (final hook in ctx._hookEffects) {
+      for (final hook in ctx._previousHookEffects) {
         hook.cleanup?.call();
       }
     } else {
