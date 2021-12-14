@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'package:universal_html/html.dart';
 
 import 'package:deact/deact.dart';
 import 'package:deact/deact_html52.dart';

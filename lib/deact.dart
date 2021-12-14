@@ -1,10 +1,11 @@
 library deact;
 
 import 'dart:async';
-import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 import 'dart:math' as math;
 
-import 'package:incremental_dom_bindings/incremental_dom_bindings.dart'
+import 'src/deact/inc_dom.dart'
+    if (dart.library.html) 'package:incremental_dom_bindings/incremental_dom_bindings.dart'
     as inc_dom;
 import 'package:logging/logging.dart';
 
