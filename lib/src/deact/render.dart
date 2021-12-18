@@ -144,7 +144,12 @@ void _renderNode(
 
     if (node.rawElement != null) {
       final el = instance.renderer.elementOpen('html-blob');
-      el.append(node.rawElement!);
+      if (el.nodes.isEmpty || el.nodes.first != node.rawElement) {
+        for (final n in el.nodes.toList()) {
+          n.remove();
+        }
+        el.append(node.rawElement!);
+      }
       instance.renderer.skip();
       instance.renderer.elementClose('html-blob');
       return;
