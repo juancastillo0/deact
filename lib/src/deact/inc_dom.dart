@@ -22,6 +22,7 @@ html.Element elementOpen(
 html.Element elementClose(String tagname) => throw _unsupportedException;
 
 void skip() => throw _unsupportedException;
+void skipNode() => throw _unsupportedException;
 
 html.Text text(String value, {List<String Function(Object)>? formatters}) =>
     throw _unsupportedException;

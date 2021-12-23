@@ -19,6 +19,7 @@ class _DeactInstance implements Deact {
   final html.Element rootElement;
   final Logger logger;
   final Map<_TreeLocation, ComponentContext> contexts = {};
+  final Map<_TreeLocation, _NodeUsage> nodes = {};
   DeactNode? rootNode;
   @override
   num lastRenderTimeMs = -1;
@@ -42,6 +43,13 @@ class _DeactInstance implements Deact {
     this.renderer, {
     this.wrappers = const [],
   }) : logger = Logger('deact.${rootElement.hashCode}');
+}
+
+class _NodeUsage {
+  final Set<_TreeLocation> usedComponentLocations;
+  final DeactNode node;
+
+  _NodeUsage(this.node, this.usedComponentLocations);
 }
 
 typedef RenderWrapper = DeactNode Function(

@@ -86,6 +86,7 @@ void _removeLocations(
       //instance.logger.warning('${location}: no context found. this looks like a bug!');
     }
     instance.contexts.remove(location);
+    instance.nodes.remove(location);
     //instance.logger.fine('${location}: removed context');
   }
 }
@@ -112,14 +113,22 @@ void _renderNode(
   int nodePosition,
   ComponentContext parentContext,
   _TreeLocation parentLocation,
-  Set<_TreeLocation> usedComponentLocations,
-  PrevElem previous,
-) {
+  Set<_TreeLocation> _usedComponentLocations,
+  PrevElem previous, {
+  bool skip = false,
+}) {
+  final Set<_TreeLocation> usedComponentLocations = {};
   if (node is ElementNode) {
     final location = _TreeLocation(
         parentLocation, 'e:${node.name}', nodePosition,
         key: node.key);
     node._location = location;
+    final prevNode = instance.nodes[location];
+    if (skip || prevNode?.node == node) {
+      instance.renderer.skipNode();
+      _usedComponentLocations.addAll(prevNode!.usedComponentLocations);
+      return;
+    }
 
     instance.logger.finest('${node._location}: processing node');
     final props = <Object>[];
@@ -187,7 +196,8 @@ void _renderNode(
     var i = 0;
     for (var child in node._children) {
       _renderNode(instance, child, i, parentContext, parentLocation,
-          usedComponentLocations, previous);
+          usedComponentLocations, previous,
+          skip: skip);
       i++;
     }
   } else if (node is TextNode) {
@@ -227,8 +237,12 @@ void _renderNode(
       }
       elementNode = next(context);
     }
+    final shouldSkip = skip ||
+        instance._dirty.contains(context._prevElem) == false &&
+            instance.nodes[location]?.node == node;
     _renderNode(instance, elementNode, 0, context, location,
-        usedComponentLocations, previous);
+        usedComponentLocations, previous,
+        skip: shouldSkip);
 
     /// Clean Up
     for (var name in context._effects.keys) {
@@ -267,5 +281,9 @@ void _renderNode(
     // null means nothing should be rendered
   } else {
     throw ArgumentError('unsupported type ${node.runtimeType} of node!');
+  }
+  _usedComponentLocations.addAll(usedComponentLocations);
+  if (node != null && node._location != null) {
+    instance.nodes[node._location!] = _NodeUsage(node, usedComponentLocations);
   }
 }

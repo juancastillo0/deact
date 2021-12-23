@@ -18,6 +18,8 @@ abstract class Renderer {
 
   void skip();
 
+  void skipNode();
+
   html.Text text(String value, {List<String Function(Object)>? formatters});
 
   // void applyProp(html.Element element, String name, Object? value);
@@ -71,6 +73,11 @@ class IncDomRenderer implements Renderer {
   @override
   void skip() {
     inc_dom.skip();
+  }
+
+  @override
+  void skipNode() {
+    inc_dom.skipNode();
   }
 
   @override
