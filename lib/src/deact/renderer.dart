@@ -25,8 +25,15 @@ abstract class Renderer {
   // void applyAttr(html.Element element, String name, Object? value);
 }
 
+typedef PropsMapper = List<Object>? Function(
+  String tagname,
+  List<Object>? props,
+);
+
 class IncDomRenderer implements Renderer {
-  const IncDomRenderer();
+  const IncDomRenderer({this.mapProps});
+
+  final PropsMapper? mapProps;
 
   @override
   html.Element elementClose(String tagname) {
@@ -43,8 +50,12 @@ class IncDomRenderer implements Renderer {
     return inc_dom.elementOpen(
       tagname,
       key,
-      staticPropertyValuePairs,
-      propertyValuePairs,
+      mapProps != null
+          ? mapProps!(tagname, staticPropertyValuePairs)
+          : staticPropertyValuePairs,
+      mapProps != null
+          ? mapProps!(tagname, propertyValuePairs)
+          : propertyValuePairs,
     );
   }
 
