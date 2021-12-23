@@ -157,6 +157,7 @@ class ComponentContext {
   List<HookEffect> _hookEffects = [];
   List<HookEffect> _previousHookEffects = [];
   PrevElem _prevElem;
+  ScopedMap? _scopedMap;
 
   ComponentContext._(
       this._parent, this._instance, this._location, this._prevElem);
@@ -334,6 +335,48 @@ class ComponentContext {
   void effect(String name, Effect effect, {Iterable<State>? dependsOn}) {
     _effects[name] = effect;
     _effectStateDependencies[name] = dependsOn;
+  }
+
+  ScopedMap get scopedMap => _scopedMap ??= ScopedMap(this);
+
+  T setUpScoped<T>(Scoped<T> scoped, T value) {
+    final ref = hookRef(() {
+      // final v = value(scopedMap);
+      final it = ScopedItem<T>(value, {this});
+      scopedMap._set(scoped, it);
+      return it;
+    });
+    if (ref.value.value != value) {
+      ref.value._value = value;
+      // TODO: make sure dependents rerender when skip render for children is implemented
+      // for (final c in ref.value.dependents) {
+      //   if (c != this) c.scheduleRerender();
+      // }
+    }
+    hookEffect(() {
+      return () => scopedMap._removeDep(scoped, this);
+    }, const []);
+
+    return value;
+  }
+
+  T scoped<T>(Scoped<T> scoped) {
+    final _it = scopedMap._getInfo(scoped);
+    final ScopedItem<T> it;
+    if (_it != null) {
+      it = _it;
+      it.dependents.add(this);
+    } else {
+      final value = scoped.create(scopedMap);
+      it = ScopedItem(value, {this});
+      scopedMap._set(scoped, it);
+    }
+
+    hookEffect(() {
+      return () => scopedMap._removeDep(scoped, this);
+    }, const []);
+
+    return it.value;
   }
 
   void hookEffect(

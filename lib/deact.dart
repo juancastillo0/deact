@@ -20,6 +20,7 @@ part 'src/deact/render.dart';
 part 'src/deact/text.dart';
 part 'src/deact/tree_location.dart';
 part 'src/deact/renderer.dart';
+part 'src/deact/scope.dart';
 
 /// A function to provide the root node to the [deact]
 /// function.
