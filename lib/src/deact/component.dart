@@ -348,10 +348,9 @@ class ComponentContext {
     });
     if (ref.value.value != value) {
       ref.value._value = value;
-      // TODO: make sure dependents rerender when skip render for children is implemented
-      // for (final c in ref.value.dependents) {
-      //   if (c != this) c.scheduleRerender();
-      // }
+      for (final c in ref.value.dependents) {
+        if (c != this) _instance._childDirty.add(c._prevElem);
+      }
     }
     hookEffect(() {
       return () => scopedMap._removeDep(scoped, this);
@@ -494,7 +493,7 @@ abstract class ComponentNode extends DeactNode {
 
   /// Override this method to render the content of the
   /// component.
-  DeactNode render(ComponentContext context);
+  DeactNode render(ComponentContext ctx);
 }
 
 /// Deact internally stores a functional component as a

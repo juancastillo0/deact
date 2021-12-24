@@ -27,6 +27,8 @@ class _DeactInstance implements Deact {
   AfterRender? afterRender;
   final List<RenderWrapper> wrappers;
   final Set<PrevElem?> _dirty = {};
+  final Set<PrevElem> _rendered = {};
+  final Set<PrevElem> _childDirty = {};
   Future<void>? _rerenderFuture;
   final Renderer renderer;
 

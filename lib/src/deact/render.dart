@@ -39,8 +39,20 @@ void _renderInstance(
               instance, instance.contexts.keys, usedComponentLocations);
         },
       );
+      final dirty = instance._dirty.length;
       _prevElem.rebuild();
-    } else {
+      if (dirty != instance._dirty.length) {
+        throw Exception("Can't schedule rerender while rendering.");
+      }
+      instance._dirty.remove(null);
+    }
+
+    do {
+      instance._dirty.addAll(instance._childDirty);
+      instance._dirty.removeAll(instance._rendered);
+      instance._childDirty.clear();
+      instance._rendered.clear();
+
       /// [instance._dirt] elements need to be rebuilt.
       /// Only rebuild dirty parents, if an element is dirty and one
       /// of its parents is also dirty, then the element does not need to
@@ -51,12 +63,10 @@ void _renderInstance(
       for (final elem in dirtyParents) {
         elem.rebuild();
       }
-    }
+    } while (instance._dirty.isNotEmpty);
 
     /// Clean Up
     instance._rerenderFuture = null;
-    instance._dirty.clear();
-
     instance.lastRenderTimeMs = sw.elapsedMilliseconds;
     instance.afterRender?.call(instance);
   });
@@ -222,7 +232,7 @@ void _renderNode(
     } else {
       context._prevElem = previous;
     }
-
+    instance._rendered.add(previous);
     context._effects.clear();
 
     /// execute [node.render] with [instance.wrappers]
