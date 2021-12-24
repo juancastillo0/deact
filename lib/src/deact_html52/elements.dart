@@ -130,7 +130,7 @@ ElementNode a({
   if (referrerpolicy != null) {
     attributes['referrerpolicy'] = referrerpolicy;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -387,7 +387,7 @@ ElementNode abbr({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -644,7 +644,7 @@ ElementNode address({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -941,7 +941,7 @@ ElementNode area({
   if (referrerpolicy != null) {
     attributes['referrerpolicy'] = referrerpolicy;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -1198,7 +1198,7 @@ ElementNode article({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -1455,7 +1455,7 @@ ElementNode aside({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -1740,7 +1740,7 @@ ElementNode audio({
   if (controls != null) {
     attributes['controls'] = controls;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -1997,7 +1997,7 @@ ElementNode b({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -2262,7 +2262,7 @@ ElementNode base({
   if (target != null) {
     attributes['target'] = target;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -2519,7 +2519,7 @@ ElementNode bdi({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -2776,7 +2776,7 @@ ElementNode bdo({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -3037,7 +3037,7 @@ ElementNode blockquote({
   if (cite != null) {
     attributes['cite'] = cite;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -3294,7 +3294,7 @@ ElementNode body({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -3551,7 +3551,7 @@ ElementNode br({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -3852,7 +3852,7 @@ ElementNode button({
   if (value != null) {
     attributes['value'] = value;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -4117,7 +4117,7 @@ ElementNode canvas({
   if (width != null) {
     attributes['width'] = width;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -4374,7 +4374,7 @@ ElementNode caption({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -4631,7 +4631,7 @@ ElementNode cite({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -4888,7 +4888,7 @@ ElementNode code({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -5149,7 +5149,7 @@ ElementNode col({
   if (span != null) {
     attributes['span'] = span;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -5410,7 +5410,7 @@ ElementNode colgroup({
   if (span != null) {
     attributes['span'] = span;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -5671,7 +5671,7 @@ ElementNode data({
   if (value != null) {
     attributes['value'] = value;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -5928,7 +5928,7 @@ ElementNode datalist({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -6185,7 +6185,7 @@ ElementNode dd({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -6450,7 +6450,7 @@ ElementNode del({
   if (datetime != null) {
     attributes['datetime'] = datetime;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -6711,7 +6711,7 @@ ElementNode details({
   if (open != null) {
     attributes['open'] = open;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -6968,7 +6968,7 @@ ElementNode dfn({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -7229,7 +7229,7 @@ ElementNode dialog({
   if (open != null) {
     attributes['open'] = open;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -7486,7 +7486,7 @@ ElementNode div({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -7743,7 +7743,7 @@ ElementNode dl({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -8000,7 +8000,7 @@ ElementNode dt({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -8257,7 +8257,7 @@ ElementNode em({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -8530,7 +8530,7 @@ ElementNode embed({
   if (height != null) {
     attributes['height'] = height;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -8799,7 +8799,7 @@ ElementNode fieldset({
   if (name != null) {
     attributes['name'] = name;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -9056,7 +9056,7 @@ ElementNode figcaption({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -9313,7 +9313,7 @@ ElementNode figure({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -9570,7 +9570,7 @@ ElementNode footer({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -9859,7 +9859,7 @@ ElementNode form({
   if (target != null) {
     attributes['target'] = target;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -10116,7 +10116,7 @@ ElementNode h1({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -10373,7 +10373,7 @@ ElementNode h2({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -10630,7 +10630,7 @@ ElementNode h3({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -10887,7 +10887,7 @@ ElementNode h4({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -11144,7 +11144,7 @@ ElementNode h5({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -11401,7 +11401,7 @@ ElementNode h6({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -11658,7 +11658,7 @@ ElementNode head({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -11915,7 +11915,7 @@ ElementNode header({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -12172,7 +12172,7 @@ ElementNode hr({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -12433,7 +12433,7 @@ ElementNode html({
   if (manifest != null) {
     attributes['manifest'] = manifest;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -12690,7 +12690,7 @@ ElementNode i({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -12979,7 +12979,7 @@ ElementNode iframe({
   if (referrerpolicy != null) {
     attributes['referrerpolicy'] = referrerpolicy;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -13276,7 +13276,7 @@ ElementNode img({
   if (referrerpolicy != null) {
     attributes['referrerpolicy'] = referrerpolicy;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -13657,7 +13657,7 @@ ElementNode input({
   if (width != null) {
     attributes['width'] = width;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -13922,7 +13922,7 @@ ElementNode ins({
   if (datetime != null) {
     attributes['datetime'] = datetime;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -14179,7 +14179,7 @@ ElementNode kbd({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -14440,7 +14440,7 @@ ElementNode label({
   if (forId != null) {
     attributes['for'] = forId;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -14697,7 +14697,7 @@ ElementNode legend({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -14958,7 +14958,7 @@ ElementNode li({
   if (value != null) {
     attributes['value'] = value;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -15251,7 +15251,7 @@ ElementNode link({
   if (sizes != null) {
     attributes['sizes'] = sizes;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -15508,7 +15508,7 @@ ElementNode main({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -15769,7 +15769,7 @@ ElementNode map({
   if (name != null) {
     attributes['name'] = name;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -16026,7 +16026,7 @@ ElementNode mark({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -16299,7 +16299,7 @@ ElementNode meta({
   if (charset != null) {
     attributes['charset'] = charset;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -16580,7 +16580,7 @@ ElementNode meter({
   if (optimum != null) {
     attributes['optimum'] = optimum;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -16837,7 +16837,7 @@ ElementNode nav({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -17094,7 +17094,7 @@ ElementNode noscript({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -17379,7 +17379,7 @@ ElementNode object({
   if (height != null) {
     attributes['height'] = height;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -17648,7 +17648,7 @@ ElementNode ol({
   if (type != null) {
     attributes['type'] = type;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -17913,7 +17913,7 @@ ElementNode optgroup({
   if (label != null) {
     attributes['label'] = label;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -18186,7 +18186,7 @@ ElementNode option({
   if (value != null) {
     attributes['value'] = value;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -18455,7 +18455,7 @@ ElementNode output({
   if (name != null) {
     attributes['name'] = name;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -18712,7 +18712,7 @@ ElementNode p({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -18977,7 +18977,7 @@ ElementNode param({
   if (value != null) {
     attributes['value'] = value;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -19234,7 +19234,7 @@ ElementNode picture({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -19491,7 +19491,7 @@ ElementNode pre({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -19756,7 +19756,7 @@ ElementNode progress({
   if (max != null) {
     attributes['max'] = max;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -20017,7 +20017,7 @@ ElementNode q({
   if (cite != null) {
     attributes['cite'] = cite;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -20274,7 +20274,7 @@ ElementNode rb({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -20531,7 +20531,7 @@ ElementNode rp({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -20788,7 +20788,7 @@ ElementNode rt({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -21045,7 +21045,7 @@ ElementNode rtc({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -21302,7 +21302,7 @@ ElementNode ruby({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -21559,7 +21559,7 @@ ElementNode s({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -21816,7 +21816,7 @@ ElementNode samp({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -22101,7 +22101,7 @@ ElementNode script({
   if (nonce != null) {
     attributes['nonce'] = nonce;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -22358,7 +22358,7 @@ ElementNode section({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -22647,7 +22647,7 @@ ElementNode select({
   if (size != null) {
     attributes['size'] = size;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -22904,7 +22904,7 @@ ElementNode small({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -23181,7 +23181,7 @@ ElementNode source({
   if (media != null) {
     attributes['media'] = media;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -23438,7 +23438,7 @@ ElementNode span({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -23695,7 +23695,7 @@ ElementNode strong({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -23964,7 +23964,7 @@ ElementNode style({
   if (type != null) {
     attributes['type'] = type;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -24221,7 +24221,7 @@ ElementNode sub({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -24478,7 +24478,7 @@ ElementNode summary({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -24735,7 +24735,7 @@ ElementNode sup({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -24996,7 +24996,7 @@ ElementNode table({
   if (border != null) {
     attributes['border'] = border;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -25253,7 +25253,7 @@ ElementNode tbody({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -25522,7 +25522,7 @@ ElementNode td({
   if (headers != null) {
     attributes['headers'] = headers;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -25779,7 +25779,7 @@ ElementNode template({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -26088,7 +26088,7 @@ ElementNode textarea({
   if (wrap != null) {
     attributes['wrap'] = wrap;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -26345,7 +26345,7 @@ ElementNode tfoot({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -26622,7 +26622,7 @@ ElementNode th({
   if (abbr != null) {
     attributes['abbr'] = abbr;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -26879,7 +26879,7 @@ ElementNode thead({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -27140,7 +27140,7 @@ ElementNode time({
   if (datetime != null) {
     attributes['datetime'] = datetime;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -27397,7 +27397,7 @@ ElementNode title({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -27654,7 +27654,7 @@ ElementNode tr({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -27931,7 +27931,7 @@ ElementNode track({
   if (srclang != null) {
     attributes['srclang'] = srclang;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -28188,7 +28188,7 @@ ElementNode u({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -28445,7 +28445,7 @@ ElementNode ul({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -28702,7 +28702,7 @@ ElementNode variable({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -28999,7 +28999,7 @@ ElementNode video({
   if (height != null) {
     attributes['height'] = height;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }
@@ -29256,7 +29256,7 @@ ElementNode wbr({
   if (title != null) {
     attributes['title'] = title;
   }
-  final listeners = <String, Object>{};
+  final listeners = <String, Function>{};
   if (onabort != null) {
     listeners['onabort'] = onabort;
   }

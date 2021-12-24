@@ -22,7 +22,7 @@ void _renderInstance(
         () {
           final usedComponentLocations = <_TreeLocation>{};
           final location =
-              _TreeLocation(null, 's:${hostElement.hashCode}', null);
+              _TreeLocation(null, 's:${hostElement.hashCode}', null, key: null);
           instance.renderer.patch(
             hostElement,
             (_) => _renderNode(
@@ -142,14 +142,14 @@ void _renderNode(
 
     instance.logger.finest('${node._location}: processing node');
     final props = <Object>[];
-    final attributes = node.attributes;
-    if (attributes != null) {
-      attributes.forEach((name, value) => props.addAll([name, value]));
-    }
-    final listeners = node.listeners;
-    if (listeners != null) {
-      listeners.forEach((event, listener) => props.addAll([event, listener]));
-    }
+    String? idKey;
+    node.attributes?.forEach((name, value) {
+      if (name == 'id' && value is String) idKey = value;
+      props.addAll([name, value]);
+    });
+    node.listeners?.forEach(
+      (event, listener) => props.addAll([event, listener]),
+    );
 
     late final PrevElem prev;
     void _renderChildren(Set<_TreeLocation> _usedComponentLocations) {
@@ -175,7 +175,7 @@ void _renderNode(
     }
     final el = instance.renderer.elementOpen(
       node.name,
-      null,
+      node.key?.toString() ?? idKey,
       null,
       props,
     );
@@ -211,7 +211,8 @@ void _renderNode(
       i++;
     }
   } else if (node is TextNode) {
-    node._location = _TreeLocation(parentLocation, 't', nodePosition);
+    node._location =
+        _TreeLocation(parentLocation, 't', nodePosition, key: null);
     //instance.logger.finest('${node._location}: processing node');
     instance.renderer.text(node.text);
   } else if (node is ComponentNode) {

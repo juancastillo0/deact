@@ -13,13 +13,18 @@ class ElementNode extends DeactNode {
   final Object? key;
   final Ref<html.Element?>? ref;
   final Map<String, Object>? attributes;
-  final Map<String, Object>? listeners;
+  final Map<String, Function>? listeners;
   final html.Element? rawElement;
 
-  ElementNode._(this.name, this.key, this.ref, this.attributes, this.listeners,
-      Iterable<DeactNode?>? children,
-      {this.rawElement})
-      : super._(children ?? []);
+  ElementNode._(
+    this.name,
+    this.key,
+    this.ref,
+    this.attributes,
+    this.listeners,
+    Iterable<DeactNode?>? children, {
+    this.rawElement,
+  }) : super._(children ?? []);
 
   factory ElementNode.fromHtml(html.Element element) =>
       ElementNode._('', null, null, null, null, null, rawElement: element);
@@ -54,7 +59,7 @@ ElementNode el(
   Object? key,
   Ref<html.Element?>? ref,
   Map<String, Object>? attributes,
-  Map<String, Object>? listeners,
+  Map<String, Function>? listeners,
   Iterable<DeactNode>? children,
 }) {
   return ElementNode._(name, key, ref, attributes, listeners, children);
