@@ -47,8 +47,7 @@ class ScopedMap {
   void _removeDep(Scoped scoped, ComponentContext context) {
     final v = _getInfo<Object?>(scoped);
     if (v != null) {
-      v.dependents.remove(context);
-      if (v.dependents.isEmpty) {
+      if (v.dependents.remove(context) && v.dependents.isEmpty) {
         scoped.dispose?.call(v.value);
       }
     }

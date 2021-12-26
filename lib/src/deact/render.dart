@@ -4,7 +4,7 @@ void _renderInstance(
   _DeactInstance instance,
   ComponentContext? dirtyComponent,
 ) {
-  instance._dirty.add(dirtyComponent?._prevElem);
+  instance._dirty.add(dirtyComponent);
 
   instance._rerenderFuture ??= Future(() {
     final sw = Stopwatch();
@@ -50,6 +50,7 @@ void _renderInstance(
     do {
       instance._dirty.addAll(instance._childDirty);
       instance._dirty.removeAll(instance._rendered);
+      instance._dirty.removeWhere((ctx) => ctx!.disposed);
       instance._childDirty.clear();
       instance._rendered.clear();
 
@@ -57,11 +58,15 @@ void _renderInstance(
       /// Only rebuild dirty parents, if an element is dirty and one
       /// of its parents is also dirty, then the element does not need to
       /// be rebuilt since its parent will rebuild all its children
-      final dirtyParents = instance._dirty
-          .whereType<PrevElem>()
-          .where((elem) => !elem.parents().any(instance._dirty.contains));
+      final dirtyElements = instance._dirty.map((e) => e!._prevElem).toSet();
+      final dirty = instance._dirty.length;
+      final dirtyParents = dirtyElements
+          .where((elem) => !elem.parents().any(dirtyElements.contains));
       for (final elem in dirtyParents) {
         elem.rebuild();
+      }
+      if (dirty != instance._dirty.length) {
+        throw Exception("Can't schedule rerender while rendering.");
       }
     } while (instance._dirty.isNotEmpty);
 
@@ -92,6 +97,7 @@ void _removeLocations(
       for (final hook in ctx._previousHookEffects) {
         hook.cleanup?.call();
       }
+      ctx._disposed = true;
     } else {
       //instance.logger.warning('${location}: no context found. this looks like a bug!');
     }
@@ -233,7 +239,7 @@ void _renderNode(
     } else {
       context._prevElem = previous;
     }
-    instance._rendered.add(previous);
+    instance._rendered.add(context);
     context._effects.clear();
 
     /// execute [node.render] with [instance.wrappers]
@@ -249,7 +255,7 @@ void _renderNode(
       elementNode = next(context);
     }
     final shouldSkip = skip ||
-        instance._dirty.contains(context._prevElem) == false &&
+        instance._dirty.contains(context) == false &&
             instance.nodes[location]?.node == node;
     _renderNode(instance, elementNode, 0, context, location,
         usedComponentLocations, previous,

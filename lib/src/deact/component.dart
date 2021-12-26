@@ -158,6 +158,8 @@ class ComponentContext {
   List<HookEffect> _previousHookEffects = [];
   PrevElem _prevElem;
   ScopedMap? _scopedMap;
+  bool _disposed = false;
+  bool get disposed => _disposed;
 
   ComponentContext._(
       this._parent, this._instance, this._location, this._prevElem);
@@ -349,7 +351,7 @@ class ComponentContext {
     if (ref.value.value != value) {
       ref.value._value = value;
       for (final c in ref.value.dependents) {
-        if (c != this) _instance._childDirty.add(c._prevElem);
+        if (c != this) _instance._childDirty.add(c);
       }
     }
     hookEffect(() {
