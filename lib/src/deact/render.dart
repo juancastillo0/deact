@@ -149,8 +149,10 @@ void _renderNode(
     instance.logger.finest('$location: processing node');
     final props = <Object>[];
     String? idKey;
+    String? valueProp;
     node.attributes?.forEach((name, value) {
       if (name == 'id' && value is String) idKey = value;
+      if (name == 'value' && value is String) valueProp = value;
       props.addAll([name, value]);
     });
     node.listeners?.forEach(
@@ -185,6 +187,9 @@ void _renderNode(
       null,
       props,
     );
+    if (valueProp != null && el is html.InputElement) {
+      el.value = valueProp;
+    }
 
     Set<_TreeLocation> currentLocations = {};
     bool _building = true;
