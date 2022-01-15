@@ -16,7 +16,7 @@ class ElementNode extends DeactNode {
   final Map<String, Function>? listeners;
   final html.Element? rawElement;
 
-  ElementNode._(
+  const ElementNode._(
     this.name,
     this.key,
     this.ref,
@@ -24,7 +24,7 @@ class ElementNode extends DeactNode {
     this.listeners,
     Iterable<DeactNode?>? children, {
     this.rawElement,
-  }) : super._(children ?? []);
+  }) : super._(children ?? const []);
 
   factory ElementNode.fromHtml(html.Element element) =>
       ElementNode._('', null, null, null, null, null, rawElement: element);
