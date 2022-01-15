@@ -134,19 +134,19 @@ void _renderNode(
   bool skip = false,
 }) {
   final Set<_TreeLocation> usedComponentLocations = {};
+  _TreeLocation? location;
   if (node is ElementNode) {
-    final location = _TreeLocation(
-        parentLocation, 'e:${node.name}', nodePosition,
+    location = _TreeLocation(parentLocation, 'e:${node.name}', nodePosition,
         key: node.key);
-    node._location = location;
     final prevNode = instance.nodes[location];
     if (skip || prevNode?.node == node) {
       instance.renderer.skipNode();
+      // TODO: verify when rendering children in scoped
       _usedComponentLocations.addAll(prevNode!.usedComponentLocations);
       return;
     }
 
-    instance.logger.finest('${node._location}: processing node');
+    instance.logger.finest('$location: processing node');
     final props = <Object>[];
     String? idKey;
     node.attributes?.forEach((name, value) {
@@ -161,7 +161,7 @@ void _renderNode(
     void _renderChildren(Set<_TreeLocation> _usedComponentLocations) {
       var i = 0;
       for (var child in node._children) {
-        _renderNode(instance, child, i, parentContext, location,
+        _renderNode(instance, child, i, parentContext, location!,
             _usedComponentLocations, prev);
         i++;
       }
@@ -210,27 +210,31 @@ void _renderNode(
     }
   } else if (node is FragmentNode) {
     var i = 0;
-    for (var child in node._children) {
-      _renderNode(instance, child, i, parentContext, parentLocation,
-          usedComponentLocations, previous,
-          skip: skip);
+    final toRender = [...node._children];
+    while (toRender.length > i) {
+      final child = toRender[i];
+      if (child is FragmentNode) {
+        toRender.insertAll(i + 1, child._children);
+      } else {
+        _renderNode(instance, child, i, parentContext, parentLocation,
+            usedComponentLocations, previous,
+            skip: skip);
+      }
       i++;
     }
   } else if (node is TextNode) {
-    node._location =
-        _TreeLocation(parentLocation, 't', nodePosition, key: null);
+    location = _TreeLocation(parentLocation, 't', nodePosition, key: null);
     //instance.logger.finest('${node._location}: processing node');
     instance.renderer.text(node.text);
   } else if (node is ComponentNode) {
-    final location = _TreeLocation(
+    location = _TreeLocation(
         parentLocation, 'c:${node.runtimeType}', nodePosition,
         key: node.key);
 
-    node._location = location;
     usedComponentLocations.add(location);
     //instance.logger.finest('${node._location}: processing node');
-    var newContext = false;
-    var context = instance.contexts[node._location];
+    bool newContext = false;
+    ComponentContext? context = instance.contexts[location];
     if (context == null) {
       context = ComponentContext._(parentContext, instance, location, previous);
       instance.contexts[location] = context;
@@ -241,6 +245,7 @@ void _renderNode(
     }
     instance._rendered.add(context);
     context._effects.clear();
+    context._rendering = true;
 
     /// execute [node.render] with [instance.wrappers]
     final DeactNode elementNode;
@@ -254,9 +259,10 @@ void _renderNode(
       }
       elementNode = next(context);
     }
-    final shouldSkip = skip ||
-        instance._dirty.contains(context) == false &&
-            instance.nodes[location]?.node == node;
+    context._rendering = false;
+
+    final shouldSkip = instance._dirty.contains(context) == false &&
+        (skip || instance.nodes[location]?.node == node);
     _renderNode(instance, elementNode, 0, context, location,
         usedComponentLocations, previous,
         skip: shouldSkip);
@@ -300,7 +306,7 @@ void _renderNode(
     throw ArgumentError('unsupported type ${node.runtimeType} of node!');
   }
   _usedComponentLocations.addAll(usedComponentLocations);
-  if (node != null && node._location != null) {
-    instance.nodes[node._location!] = _NodeUsage(node, usedComponentLocations);
+  if (node != null && location != null) {
+    instance.nodes[location] = _NodeUsage(node, usedComponentLocations);
   }
 }

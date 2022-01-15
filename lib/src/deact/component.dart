@@ -70,7 +70,9 @@ class State<T> {
     if (_global) {
       _renderInstance(_instance, null);
     } else {
-      context.scheduleRerender();
+      if (!context.rendering) {
+        context.scheduleRerender();
+      }
     }
   }
 
@@ -91,18 +93,26 @@ class State<T> {
   /// was executed, the component and its children will
   /// be rerendered using the new state.
   void set(T Function(T state) setter) {
+    final prev = _value;
     _value = setter(_value as T);
-    _valueChanged = true;
-    _rebuild();
+
+    final changed = _value != prev;
+    if (changed) {
+      _valueChanged = true;
+      _rebuild();
+    }
   }
 
   /// Sets a new state. After the new state is applied,
   /// the component and its children will be rerendered
   /// using the new state.
   set value(T value) {
-    _value = value;
-    _valueChanged = true;
-    _rebuild();
+    final changed = value != this._value;
+    if (changed) {
+      _value = value;
+      _valueChanged = true;
+      _rebuild();
+    }
   }
 
   /// Returns the actual state object.
@@ -160,6 +170,8 @@ class ComponentContext {
   ScopedMap? _scopedMap;
   bool _disposed = false;
   bool get disposed => _disposed;
+  bool _rendering = false;
+  bool get rendering => _rendering;
 
   ComponentContext._(
       this._parent, this._instance, this._location, this._prevElem);
@@ -491,7 +503,7 @@ abstract class ComponentNode extends DeactNode {
   /// you can provided a key to a component (e.g. a technical
   /// id or a name). When a component with a key is moved its
   /// states and effects will also move.
-  ComponentNode({this.key}) : super._([]);
+  const ComponentNode({this.key}) : super._(const []);
 
   /// Override this method to render the content of the
   /// component.
